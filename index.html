@@ -1,587 +1,346 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tiny question</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Karla:ital,wght@0,400;0,600;0,700;1,400&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      /* ---------- TOKENS (from the hand-painted tiles) ---------- */
-      :root {
-        --cream: #efe5d4; /* wall / background */
-        --tile: #fbf6ec; /* tile surface */
-        --brick: #b23a2b; /* terracotta red, line work */
-        --brick-soft: #c8463a;
-        --cobalt: #2f4f8f; /* folk blue */
-        --sky: #a9c7d6; /* washed blue */
-        --olive: #6e7b3c; /* leaf green */
-        --pink: #e3a39b; /* blush */
-        --ink: #2e2823; /* text */
-        --tile-max: 560px;
-      }
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A little question for you 🧡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Karla:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ---------- TOKENS (from the hand-painted tiles) ---------- */
+  :root{
+    --cream:      #EFE5D4;   /* wall / background */
+    --tile:       #FBF6EC;   /* tile surface */
+    --brick:      #B23A2B;   /* terracotta red, line work */
+    --brick-soft: #C8463A;
+    --cobalt:     #2F4F8F;   /* folk blue */
+    --sky:        #A9C7D6;   /* washed blue */
+    --olive:      #6E7B3C;   /* leaf green */
+    --pink:       #E3A39B;   /* blush */
+    --ink:        #2E2823;   /* text */
+    --tile-max:   560px;
+  }
 
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
+  *{ box-sizing:border-box; margin:0; padding:0; }
 
-      html,
-      body {
-        height: 100%;
-      }
-      body {
-        font-family: "Karla", system-ui, sans-serif;
-        color: var(--ink);
-        background: radial-gradient(
-            circle at 20% 15%,
-            rgba(169, 199, 214, 0.18),
-            transparent 45%
-          ),
-          radial-gradient(
-            circle at 85% 80%,
-            rgba(227, 163, 155, 0.18),
-            transparent 45%
-          ),
-          var(--cream);
-        min-height: 100dvh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 24px 16px;
-        overflow-x: hidden;
-      }
+  html,body{ height:100%; }
+  body{
+    font-family:'Karla', system-ui, sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 20% 15%, rgba(169,199,214,.18), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(227,163,155,.18), transparent 45%),
+      var(--cream);
+    min-height:100dvh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px 16px;
+    overflow-x:hidden;
+  }
 
-      /* ---------- TILE ---------- */
-      .tile {
-        position: relative;
-        width: 100%;
-        max-width: var(--tile-max);
-        background: var(--tile);
-        border: 2px solid var(--brick);
-        border-radius: 6px;
-        padding: 40px 30px 44px;
-        box-shadow: 0 1px 0 rgba(46, 40, 35, 0.04),
-          0 18px 40px -22px rgba(46, 40, 35, 0.45);
-      }
-      /* dotted inner border, like the real tiles */
-      .tile::after {
-        content: "";
-        position: absolute;
-        inset: 9px;
-        border: 1.5px dashed rgba(178, 58, 43, 0.55);
-        border-radius: 3px;
-        pointer-events: none;
-      }
+  /* ---------- TILE ---------- */
+  .tile{
+    position:relative;
+    width:100%;
+    max-width:var(--tile-max);
+    background:var(--tile);
+    border:2px solid var(--brick);
+    border-radius:6px;
+    padding:40px 30px 44px;
+    box-shadow:
+      0 1px 0 rgba(46,40,35,.04),
+      0 18px 40px -22px rgba(46,40,35,.45);
+  }
+  /* dotted inner border, like the real tiles */
+  .tile::after{
+    content:"";
+    position:absolute;
+    inset:9px;
+    border:1.5px dashed rgba(178,58,43,.55);
+    border-radius:3px;
+    pointer-events:none;
+  }
 
-      .inner {
-        position: relative;
-        z-index: 1;
-        text-align: center;
-      }
+  .inner{ position:relative; z-index:1; text-align:center; }
 
-      /* ---------- TYPE ---------- */
-      .eyebrow {
-        font-size: 0.78rem;
-        letter-spacing: 0.28em;
-        text-transform: uppercase;
-        color: var(--cobalt);
-        font-weight: 700;
-        margin-bottom: 10px;
-      }
-      h1 {
-        font-family: "Instrument Serif", serif;
-        font-weight: 400;
-        font-size: clamp(2rem, 7vw, 3.1rem);
-        line-height: 1.08;
-        color: var(--brick);
-        margin-bottom: 6px;
-      }
-      h1 em {
-        font-style: italic;
-        color: var(--cobalt);
-      }
-      .sub {
-        font-size: 1.02rem;
-        color: var(--ink);
-        opacity: 0.85;
-        max-width: 34ch;
-        margin: 10px auto 0;
-        line-height: 1.5;
-      }
+  /* ---------- TYPE ---------- */
+  .eyebrow{
+    font-size:.78rem;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--cobalt);
+    font-weight:700;
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:'Instrument Serif', serif;
+    font-weight:400;
+    font-size:clamp(2rem, 7vw, 3.1rem);
+    line-height:1.08;
+    color:var(--brick);
+    margin-bottom:6px;
+  }
+  h1 em{ font-style:italic; color:var(--cobalt); }
+  .sub{
+    font-size:1.02rem;
+    color:var(--ink);
+    opacity:.85;
+    max-width:34ch;
+    margin:10px auto 0;
+    line-height:1.5;
+  }
 
-      /* ---------- ILLUSTRATIONS ---------- */
-      .art {
-        width: 170px;
-        height: auto;
-        margin: 4px auto 22px;
-        display: block;
-      }
-      .art--sm {
-        width: 120px;
-        margin-bottom: 14px;
-      }
-      svg .stroke-r {
-        fill: none;
-        stroke: var(--brick);
-        stroke-width: 2.4;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-      }
-      svg .stroke-b {
-        fill: none;
-        stroke: var(--cobalt);
-        stroke-width: 2.4;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-      }
-      svg .stroke-olive {
-        fill: none;
-        stroke: var(--olive);
-        stroke-width: 2.4;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-      }
-      svg .fill-r {
-        fill: var(--brick);
-      }
-      svg .fill-b {
-        fill: var(--cobalt);
-      }
-      svg .fill-pink {
-        fill: var(--pink);
-      }
-      svg .fill-sky {
-        fill: var(--sky);
-      }
-      svg .fill-olive {
-        fill: var(--olive);
-      }
+  /* ---------- ILLUSTRATIONS ---------- */
+  .art{ width:170px; height:auto; margin:4px auto 22px; display:block; }
+  .art--sm{ width:120px; margin-bottom:14px; }
+  svg .stroke-r{ fill:none; stroke:var(--brick); stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+  svg .stroke-b{ fill:none; stroke:var(--cobalt); stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+  svg .stroke-olive{ fill:none; stroke:var(--olive); stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+  svg .fill-r{ fill:var(--brick); }
+  svg .fill-b{ fill:var(--cobalt); }
+  svg .fill-pink{ fill:var(--pink); }
+  svg .fill-sky{ fill:var(--sky); }
+  svg .fill-olive{ fill:var(--olive); }
 
-      /* ---------- BUTTONS ---------- */
-      .btn {
-        font-family: "Karla", sans-serif;
-        font-weight: 700;
-        font-size: 1rem;
-        letter-spacing: 0.02em;
-        color: var(--tile);
-        background: var(--brick);
-        border: 2px solid var(--brick);
-        border-radius: 40px;
-        padding: 13px 30px;
-        cursor: pointer;
-        transition: transform 0.18s ease, background 0.18s ease,
-          box-shadow 0.18s ease;
-        box-shadow: 0 8px 18px -10px rgba(178, 58, 43, 0.7);
-      }
-      .btn:hover {
-        background: var(--brick-soft);
-        transform: translateY(-2px);
-      }
-      .btn:active {
-        transform: translateY(0);
-      }
-      .btn--ghost {
-        background: transparent;
-        color: var(--cobalt);
-        border-color: var(--cobalt);
-        box-shadow: none;
-      }
-      .btn--ghost:hover {
-        background: rgba(47, 79, 143, 0.08);
-      }
-      .btn:focus-visible,
-      .opt:focus-visible {
-        outline: 3px solid var(--cobalt);
-        outline-offset: 3px;
-      }
+  /* ---------- BUTTONS ---------- */
+  .btn{
+    font-family:'Karla', sans-serif;
+    font-weight:700;
+    font-size:1rem;
+    letter-spacing:.02em;
+    color:var(--tile);
+    background:var(--brick);
+    border:2px solid var(--brick);
+    border-radius:40px;
+    padding:13px 30px;
+    cursor:pointer;
+    transition:transform .18s ease, background .18s ease, box-shadow .18s ease;
+    box-shadow:0 8px 18px -10px rgba(178,58,43,.7);
+  }
+  .btn:hover{ background:var(--brick-soft); transform:translateY(-2px); }
+  .btn:active{ transform:translateY(0); }
+  .btn--ghost{
+    background:transparent;
+    color:var(--cobalt);
+    border-color:var(--cobalt);
+    box-shadow:none;
+  }
+  .btn--ghost:hover{ background:rgba(47,79,143,.08); }
+  .btn:focus-visible, .opt:focus-visible{ outline:3px solid var(--cobalt); outline-offset:3px; }
 
-      .row {
-        display: flex;
-        gap: 14px;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        margin-top: 26px;
-      }
+  .row{ display:flex; gap:14px; justify-content:center; align-items:center; flex-wrap:wrap; margin-top:26px; }
 
-      /* the runaway "no" button */
-      #noBtn {
-        position: relative;
-      }
+  /* the runaway "no" button */
+  #noBtn{ position:relative; }
 
-      /* ---------- OPTIONS (days / times / activities) ---------- */
-      .grid {
-        display: grid;
-        gap: 12px;
-        margin-top: 24px;
-      }
-      .grid--days {
-        grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
-      }
-      .grid--times {
-        grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
-      }
-      .grid--acts {
-        grid-template-columns: repeat(auto-fit, minmax(146px, 1fr));
-      }
+  /* ---------- OPTIONS (days / times / activities) ---------- */
+  .grid{
+    display:grid;
+    gap:12px;
+    margin-top:24px;
+  }
+  .grid--days{ grid-template-columns:repeat(auto-fit, minmax(118px,1fr)); }
+  .grid--times{ grid-template-columns:repeat(auto-fit, minmax(108px,1fr)); }
+  .grid--acts{ grid-template-columns:repeat(auto-fit, minmax(146px,1fr)); }
 
-      .opt {
-        font-family: "Karla", sans-serif;
-        background: var(--tile);
-        border: 1.8px solid rgba(47, 79, 143, 0.45);
-        border-radius: 8px;
-        padding: 14px 10px;
-        cursor: pointer;
-        color: var(--ink);
-        transition: transform 0.15s ease, border-color 0.15s ease,
-          background 0.15s ease;
-        text-align: center;
-      }
-      .opt:hover {
-        transform: translateY(-2px);
-        border-color: var(--brick);
-      }
-      .opt[aria-pressed="true"] {
-        border-color: var(--brick);
-        background: #fcefea;
-        box-shadow: inset 0 0 0 2px var(--brick);
-      }
-      .opt .day-name {
-        display: block;
-        font-weight: 700;
-        color: var(--cobalt);
-        font-size: 0.82rem;
-        text-transform: capitalize;
-      }
-      .opt .day-num {
-        display: block;
-        font-family: "Instrument Serif", serif;
-        font-size: 1.7rem;
-        line-height: 1.1;
-        color: var(--brick);
-      }
-      .opt .day-mo {
-        display: block;
-        font-size: 0.74rem;
-        opacity: 0.7;
-        text-transform: capitalize;
-      }
-      .opt .time {
-        font-family: "Instrument Serif", serif;
-        font-size: 1.4rem;
-        color: var(--brick);
-      }
-      .opt--act {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        padding: 16px 10px;
-      }
-      .opt--act svg {
-        width: 54px;
-        height: 54px;
-      }
-      .opt--act .label {
-        font-weight: 600;
-        font-size: 0.92rem;
-        line-height: 1.2;
-      }
+  .opt{
+    font-family:'Karla', sans-serif;
+    background:var(--tile);
+    border:1.8px solid rgba(47,79,143,.45);
+    border-radius:8px;
+    padding:14px 10px;
+    cursor:pointer;
+    color:var(--ink);
+    transition:transform .15s ease, border-color .15s ease, background .15s ease;
+    text-align:center;
+  }
+  .opt:hover{ transform:translateY(-2px); border-color:var(--brick); }
+  .opt[aria-pressed="true"]{
+    border-color:var(--brick);
+    background:#FCEFEA;
+    box-shadow:inset 0 0 0 2px var(--brick);
+  }
+  .opt .day-name{ display:block; font-weight:700; color:var(--cobalt); font-size:.82rem; text-transform:capitalize; }
+  .opt .day-num{ display:block; font-family:'Instrument Serif',serif; font-size:1.7rem; line-height:1.1; color:var(--brick); }
+  .opt .day-mo{ display:block; font-size:.74rem; opacity:.7; text-transform:capitalize; }
+  .opt .time{ font-family:'Instrument Serif',serif; font-size:1.4rem; color:var(--brick); }
+  .opt--act{ display:flex; flex-direction:column; align-items:center; gap:8px; padding:16px 10px; }
+  .opt--act svg{ width:54px; height:54px; }
+  .opt--act .label{ font-weight:600; font-size:.92rem; line-height:1.2; }
 
-      .step-title {
-        font-family: "Instrument Serif", serif;
-        font-size: clamp(1.7rem, 5.5vw, 2.3rem);
-        color: var(--brick);
-        margin-bottom: 2px;
-      }
-      .step-hint {
-        font-size: 0.92rem;
-        opacity: 0.7;
-        margin-bottom: 4px;
-      }
+  .step-title{
+    font-family:'Instrument Serif', serif;
+    font-size:clamp(1.7rem,5.5vw,2.3rem);
+    color:var(--brick);
+    margin-bottom:2px;
+  }
+  .step-hint{ font-size:.92rem; opacity:.7; margin-bottom:4px; }
 
-      .nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 12px;
-        margin-top: 26px;
-      }
-      .back {
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: var(--cobalt);
-        font-family: "Karla", sans-serif;
-        font-weight: 600;
-        font-size: 0.95rem;
-        padding: 6px;
-      }
-      .back:hover {
-        text-decoration: underline;
-      }
-      .back:focus-visible {
-        outline: 3px solid var(--cobalt);
-        outline-offset: 3px;
-        border-radius: 4px;
-      }
+  .nav{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:26px; }
+  .back{
+    background:none; border:none; cursor:pointer; color:var(--cobalt);
+    font-family:'Karla',sans-serif; font-weight:600; font-size:.95rem; padding:6px;
+  }
+  .back:hover{ text-decoration:underline; }
+  .back:focus-visible{ outline:3px solid var(--cobalt); outline-offset:3px; border-radius:4px; }
 
-      /* progress: 4 painted dots */
-      .dots {
-        display: flex;
-        gap: 8px;
-        justify-content: center;
-        margin-bottom: 18px;
-      }
-      .dots span {
-        width: 9px;
-        height: 9px;
-        border-radius: 50%;
-        border: 1.6px solid var(--brick);
-      }
-      .dots span.on {
-        background: var(--brick);
-      }
+  /* progress: 4 painted dots */
+  .dots{ display:flex; gap:8px; justify-content:center; margin-bottom:18px; }
+  .dots span{ width:9px; height:9px; border-radius:50%; border:1.6px solid var(--brick); }
+  .dots span.on{ background:var(--brick); }
 
-      /* summary */
-      .summary {
-        font-family: "Instrument Serif", serif;
-        font-size: clamp(1.35rem, 4.5vw, 1.8rem);
-        line-height: 1.45;
-        color: var(--ink);
-        margin: 18px auto 4px;
-        max-width: 30ch;
-      }
-      .summary b {
-        color: var(--brick);
-        font-style: normal;
-      }
-      .err {
-        color: var(--brick);
-        font-size: 0.9rem;
-        margin-top: 12px;
-        min-height: 1.2em;
-      }
+  /* summary */
+  .summary{
+    font-family:'Instrument Serif', serif;
+    font-size:clamp(1.35rem, 4.5vw, 1.8rem);
+    line-height:1.45;
+    color:var(--ink);
+    margin:18px auto 4px;
+    max-width:30ch;
+  }
+  .summary b{ color:var(--brick); font-style:normal; }
+  .err{ color:var(--brick); font-size:.9rem; margin-top:12px; min-height:1.2em; }
 
-      /* ---------- SCREENS ---------- */
-      .screen {
-        display: none;
-        animation: fade 0.5s ease both;
-      }
-      .screen.active {
-        display: block;
-      }
-      @keyframes fade {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: none;
-        }
-      }
+  /* ---------- SCREENS ---------- */
+  .screen{ display:none; animation:fade .5s ease both; }
+  .screen.active{ display:block; }
+  @keyframes fade{ from{ opacity:0; transform:translateY(10px);} to{ opacity:1; transform:none;} }
 
-      /* ---------- PETALS / HEARTS ---------- */
-      .petal {
-        position: fixed;
-        top: -30px;
-        z-index: 5;
-        pointer-events: none;
-        animation: fall linear forwards;
-      }
-      @keyframes fall {
-        to {
-          transform: translateY(108vh) rotate(360deg);
-          opacity: 0;
-        }
-      }
+  /* ---------- PETALS / HEARTS ---------- */
+  .petal{ position:fixed; top:-30px; z-index:5; pointer-events:none; animation:fall linear forwards; }
+  @keyframes fall{
+    to{ transform:translateY(108vh) rotate(360deg); opacity:0; }
+  }
 
-      @media (max-width: 420px) {
-        .tile {
-          padding: 32px 20px 36px;
-        }
-        .row {
-          flex-direction: column;
-        }
-        .row .btn {
-          width: 100%;
-        }
-      }
+  @media (max-width:420px){
+    .tile{ padding:32px 20px 36px; }
+    .row{ flex-direction:column; }
+    .row .btn{ width:100%; }
+  }
 
-      @media (prefers-reduced-motion: reduce) {
-        * {
-          animation: none !important;
-          transition: none !important;
-        }
-        .petal {
-          display: none !important;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <main class="tile" role="main">
-      <div class="inner">
-        <!-- ===== SCREEN 1 · THE ASK ===== -->
-        <section class="screen active" id="screen-ask">
-          <p class="eyebrow">Dany</p>
-          <svg class="art" viewBox="0 0 220 150" aria-hidden="true">
-            <!-- dotted oval -->
-            <ellipse
-              cx="110"
-              cy="80"
-              rx="100"
-              ry="62"
-              class="stroke-r"
-              stroke-dasharray="2 7"
-            />
-            <!-- heart in the middle -->
-            <path
-              d="M110 44c-5-9-20-7-20 4 0 8 13 14 20 20 7-6 20-12 20-20 0-11-15-13-20-4z"
-              class="fill-r"
-            />
-            <!-- left horse (faces right) -->
-            <g transform="translate(38,70)">
-              <ellipse cx="22" cy="22" rx="22" ry="11" class="stroke-r" />
-              <path d="M40 16 q8-4 9-15 q0-5 6-4" class="stroke-r" />
-              <path d="M55 -3 l5 -8 M55 -3 l-3 -7" class="stroke-r" />
-              <line x1="8" y1="30" x2="6" y2="48" class="stroke-r" />
-              <line x1="18" y1="32" x2="17" y2="50" class="stroke-r" />
-              <line x1="30" y1="32" x2="31" y2="50" class="stroke-r" />
-              <line x1="40" y1="30" x2="43" y2="48" class="stroke-r" />
-              <path d="M2 18 q-10 4 -8 18" class="stroke-r" />
-              <circle cx="22" cy="20" r="1.6" class="fill-r" />
-              <circle cx="14" cy="24" r="1.6" class="fill-r" />
-              <circle cx="30" cy="25" r="1.6" class="fill-r" />
-            </g>
-            <!-- right horse (faces left) -->
-            <g transform="translate(182,70) scale(-1,1)">
-              <ellipse cx="22" cy="22" rx="22" ry="11" class="stroke-r" />
-              <path d="M40 16 q8-4 9-15 q0-5 6-4" class="stroke-r" />
-              <path d="M55 -3 l5 -8 M55 -3 l-3 -7" class="stroke-r" />
-              <line x1="8" y1="30" x2="6" y2="48" class="stroke-r" />
-              <line x1="18" y1="32" x2="17" y2="50" class="stroke-r" />
-              <line x1="30" y1="32" x2="31" y2="50" class="stroke-r" />
-              <line x1="40" y1="30" x2="43" y2="48" class="stroke-r" />
-              <path d="M2 18 q-10 4 -8 18" class="stroke-r" />
-              <circle cx="22" cy="20" r="1.6" class="fill-r" />
-              <circle cx="14" cy="24" r="1.6" class="fill-r" />
-              <circle cx="30" cy="25" r="1.6" class="fill-r" />
-            </g>
-          </svg>
-          <h1>Will you go on a <em>date</em> with me next week?</h1>
-          <p class="sub">
-            I'll pick you up from your place. All you have to do is choose when
-            and what we do!
-          </p>
-          <div class="row">
-            <button class="btn" id="yesBtn">Yes, I'd love to</button>
-            <button class="btn btn--ghost" id="noBtn">No</button>
-          </div>
-        </section>
+  @media (prefers-reduced-motion:reduce){
+    *{ animation:none !important; transition:none !important; }
+    .petal{ display:none !important; }
+  }
+</style>
+</head>
+<body>
 
-        <!-- ===== SCREEN 2 · DAY ===== -->
-        <section class="screen" id="screen-day">
-          <div class="dots">
-            <span class="on"></span><span></span><span></span><span></span>
-          </div>
-          <h2 class="step-title">Yay! When?</h2>
-          <p class="step-hint">Pick whichever day works best.</p>
-          <div class="grid grid--days" id="dayGrid"></div>
-          <div class="nav">
-            <button class="back" data-go="ask">← Back</button>
-            <button class="btn" id="dayNext" disabled style="opacity: 0.45">
-              Next
-            </button>
-          </div>
-        </section>
+<main class="tile" role="main">
+  <div class="inner">
 
-        <!-- ===== SCREEN 3 · TIME ===== -->
-        <section class="screen" id="screen-time">
-          <div class="dots">
-            <span class="on"></span><span class="on"></span><span></span
-            ><span></span>
-          </div>
-          <h2 class="step-title">What time should I pick you up?</h2>
-          <p class="step-hint">I'll be right on time at your place.</p>
-          <div class="grid grid--times" id="timeGrid"></div>
-          <div class="nav">
-            <button class="back" data-go="day">← Back</button>
-            <button class="btn" id="timeNext" disabled style="opacity: 0.45">
-              Next
-            </button>
-          </div>
-        </section>
-
-        <!-- ===== SCREEN 4 · ACTIVITY ===== -->
-        <section class="screen" id="screen-act">
-          <div class="dots">
-            <span class="on"></span><span class="on"></span
-            ><span class="on"></span><span></span>
-          </div>
-          <h2 class="step-title">And what should we do?</h2>
-          <p class="step-hint">Choose our plan.</p>
-          <div class="grid grid--acts" id="actGrid"></div>
-          <div class="nav">
-            <button class="back" data-go="time">← Back</button>
-            <button class="btn" id="actNext" disabled style="opacity: 0.45">
-              See our date
-            </button>
-          </div>
-        </section>
-
-        <!-- ===== SCREEN 5 · CONFIRM ===== -->
-        <section class="screen" id="screen-confirm">
-          <div class="dots">
-            <span class="on"></span><span class="on"></span
-            ><span class="on"></span><span class="on"></span>
-          </div>
-          <p class="eyebrow">Our date</p>
-          <p class="summary" id="summaryText"></p>
-          <p class="sub">
-            If it all looks good, send me your answer and I'll start planning :)
-          </p>
-          <div class="row">
-            <button class="btn" id="sendBtn">Send my answer</button>
-          </div>
-          <button class="back" data-go="act" style="margin-top: 16px">
-            ← Change something
-          </button>
-          <p class="err" id="errMsg"></p>
-        </section>
-
-        <!-- ===== SCREEN 6 · DONE ===== -->
-        <section class="screen" id="screen-done">
-          <svg class="art art--sm" viewBox="0 0 120 110" aria-hidden="true">
-            <rect
-              x="14"
-              y="30"
-              width="92"
-              height="62"
-              rx="6"
-              class="stroke-b"
-            />
-            <path d="M14 34 L60 66 L106 34" class="stroke-b" />
-            <path
-              d="M60 18c-5-9-20-7-20 4 0 8 13 14 20 20 7-6 20-12 20-20 0-11-15-13-20-4z"
-              class="fill-r"
-            />
-          </svg>
-          <h1>I can't wait!</h1>
-          <p class="sub" id="doneText"></p>
-        </section>
+    <!-- ===== SCREEN 1 · THE ASK ===== -->
+    <section class="screen active" id="screen-ask">
+      <p class="eyebrow">Dany</p>
+      <svg class="art" viewBox="0 0 220 150" aria-hidden="true">
+        <!-- dotted oval -->
+        <ellipse cx="110" cy="80" rx="100" ry="62" class="stroke-r" stroke-dasharray="2 7"/>
+        <!-- heart in the middle -->
+        <path d="M110 44c-5-9-20-7-20 4 0 8 13 14 20 20 7-6 20-12 20-20 0-11-15-13-20-4z" class="fill-r"/>
+        <!-- left horse (faces right) -->
+        <g transform="translate(38,70)">
+          <ellipse cx="22" cy="22" rx="22" ry="11" class="stroke-r"/>
+          <path d="M40 16 q8-4 9-15 q0-5 6-4" class="stroke-r"/>
+          <path d="M55 -3 l5 -8 M55 -3 l-3 -7" class="stroke-r"/>
+          <line x1="8" y1="30" x2="6" y2="48" class="stroke-r"/>
+          <line x1="18" y1="32" x2="17" y2="50" class="stroke-r"/>
+          <line x1="30" y1="32" x2="31" y2="50" class="stroke-r"/>
+          <line x1="40" y1="30" x2="43" y2="48" class="stroke-r"/>
+          <path d="M2 18 q-10 4 -8 18" class="stroke-r"/>
+          <circle cx="22" cy="20" r="1.6" class="fill-r"/>
+          <circle cx="14" cy="24" r="1.6" class="fill-r"/>
+          <circle cx="30" cy="25" r="1.6" class="fill-r"/>
+        </g>
+        <!-- right horse (faces left) -->
+        <g transform="translate(182,70) scale(-1,1)">
+          <ellipse cx="22" cy="22" rx="22" ry="11" class="stroke-r"/>
+          <path d="M40 16 q8-4 9-15 q0-5 6-4" class="stroke-r"/>
+          <path d="M55 -3 l5 -8 M55 -3 l-3 -7" class="stroke-r"/>
+          <line x1="8" y1="30" x2="6" y2="48" class="stroke-r"/>
+          <line x1="18" y1="32" x2="17" y2="50" class="stroke-r"/>
+          <line x1="30" y1="32" x2="31" y2="50" class="stroke-r"/>
+          <line x1="40" y1="30" x2="43" y2="48" class="stroke-r"/>
+          <path d="M2 18 q-10 4 -8 18" class="stroke-r"/>
+          <circle cx="22" cy="20" r="1.6" class="fill-r"/>
+          <circle cx="14" cy="24" r="1.6" class="fill-r"/>
+          <circle cx="30" cy="25" r="1.6" class="fill-r"/>
+        </g>
+      </svg>
+      <h1>Will you go on a <em>date</em> with me next week?</h1>
+      <p class="sub">I'll pick you up from your place. All you have to do is choose when and what we do. 🧡</p>
+      <div class="row">
+        <button class="btn" id="yesBtn">Yes, I'd love to</button>
+        <button class="btn btn--ghost" id="noBtn">No</button>
       </div>
-    </main>
+    </section>
 
-    <script>
-      /* ============================================================
+    <!-- ===== SCREEN 2 · DAY ===== -->
+    <section class="screen" id="screen-day">
+      <div class="dots"><span class="on"></span><span></span><span></span><span></span></div>
+      <h2 class="step-title">Yes! 🎉 Which day?</h2>
+      <p class="step-hint">Pick whichever day works best.</p>
+      <div class="grid grid--days" id="dayGrid"></div>
+      <div class="nav">
+        <button class="back" data-go="ask">← Back</button>
+        <button class="btn" id="dayNext" disabled style="opacity:.45;">Next</button>
+      </div>
+    </section>
+
+    <!-- ===== SCREEN 3 · TIME ===== -->
+    <section class="screen" id="screen-time">
+      <div class="dots"><span class="on"></span><span class="on"></span><span></span><span></span></div>
+      <h2 class="step-title">What time should I pick you up?</h2>
+      <p class="step-hint">I'll be right on time at your place.</p>
+      <div class="grid grid--times" id="timeGrid"></div>
+      <div class="nav">
+        <button class="back" data-go="day">← Back</button>
+        <button class="btn" id="timeNext" disabled style="opacity:.45;">Next</button>
+      </div>
+    </section>
+
+    <!-- ===== SCREEN 4 · ACTIVITY ===== -->
+    <section class="screen" id="screen-act">
+      <div class="dots"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></div>
+      <h2 class="step-title">And what should we do?</h2>
+      <p class="step-hint">Choose our plan.</p>
+      <div class="grid grid--acts" id="actGrid"></div>
+      <div class="nav">
+        <button class="back" data-go="time">← Back</button>
+        <button class="btn" id="actNext" disabled style="opacity:.45;">See our date</button>
+      </div>
+    </section>
+
+    <!-- ===== SCREEN 5 · CONFIRM ===== -->
+    <section class="screen" id="screen-confirm">
+      <div class="dots"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div>
+      <p class="eyebrow">Our date</p>
+      <p class="summary" id="summaryText"></p>
+      <p class="sub">If it all looks good, send me your answer and I'll start planning. 💌</p>
+      <div class="row">
+        <button class="btn" id="sendBtn">Send my answer</button>
+      </div>
+      <button class="back" data-go="act" style="margin-top:16px;">← Change something</button>
+      <p class="err" id="errMsg"></p>
+    </section>
+
+    <!-- ===== SCREEN 6 · DONE ===== -->
+    <section class="screen" id="screen-done">
+      <svg class="art art--sm" viewBox="0 0 120 110" aria-hidden="true">
+        <rect x="14" y="30" width="92" height="62" rx="6" class="stroke-b"/>
+        <path d="M14 34 L60 66 L106 34" class="stroke-b"/>
+        <path d="M60 18c-5-9-20-7-20 4 0 8 13 14 20 20 7-6 20-12 20-20 0-11-15-13-20-4z" class="fill-r"/>
+      </svg>
+      <h1>I can't wait!</h1>
+      <p class="sub" id="doneText"></p>
+    </section>
+
+  </div>
+</main>
+
+<script>
+/* ============================================================
    CONFIG  ·  edit ONLY this
    ------------------------------------------------------------
    The notification is sent with Web3Forms (free, no server).
@@ -591,296 +350,219 @@
       and the backup if anything fails).
    3) Upload this file to GitHub Pages and send Dany the link.
    ============================================================ */
-      const CONFIG = {
-        accessKey: "PASTE_YOUR_ACCESS_KEY_HERE", // <- from web3forms.com
-        notifyEmail: "your-email@example.com", // <- your email
-        herName: "Dany",
-        fromName: "Cam",
-      };
+const CONFIG = {
+  accessKey:  "cce0b0d9-2eea-4b14-a190-b4e0609981f4",  // <- from web3forms.com
+  notifyEmail:"chamomile.torres@gmail.com",        // <- your email
+  herName:    "Dany",
+  fromName:   "Cam"
+};
 
-      /* ---------- state ---------- */
-      const pick = { day: null, time: null, act: null };
+/* ---------- state ---------- */
+const pick = { day:null, time:null, act:null };
 
-      /* ---------- navigation ---------- */
-      const screens = {
-        ask: document.getElementById("screen-ask"),
-        day: document.getElementById("screen-day"),
-        time: document.getElementById("screen-time"),
-        act: document.getElementById("screen-act"),
-        confirm: document.getElementById("screen-confirm"),
-        done: document.getElementById("screen-done"),
-      };
-      function show(name) {
-        Object.values(screens).forEach((s) => s.classList.remove("active"));
-        screens[name].classList.add("active");
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-      document.querySelectorAll("[data-go]").forEach((b) => {
-        b.addEventListener("click", () => show(b.dataset.go));
+/* ---------- navigation ---------- */
+const screens = {
+  ask:     document.getElementById('screen-ask'),
+  day:     document.getElementById('screen-day'),
+  time:    document.getElementById('screen-time'),
+  act:     document.getElementById('screen-act'),
+  confirm: document.getElementById('screen-confirm'),
+  done:    document.getElementById('screen-done')
+};
+function show(name){
+  Object.values(screens).forEach(s=>s.classList.remove('active'));
+  screens[name].classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+document.querySelectorAll('[data-go]').forEach(b=>{
+  b.addEventListener('click', ()=> show(b.dataset.go));
+});
+
+/* ---------- SCREEN 1: yes / no ---------- */
+document.getElementById('yesBtn').addEventListener('click', ()=>{ burst(28); show('day'); });
+
+const noBtn = document.getElementById('noBtn');
+const noTexts = ['No','Are you sure?','Pretty please? 🥺','C\'mon!','💔','Try again 😄'];
+let noStep = 0;
+function dodge(){
+  noStep = Math.min(noStep+1, noTexts.length-1);
+  noBtn.textContent = noTexts[noStep];
+  const dx = (Math.random()*200 - 100);
+  const dy = (Math.random()*120 - 30);
+  noBtn.style.transform = `translate(${dx}px, ${dy}px) scale(${Math.max(.55, 1 - noStep*.12)})`;
+  const yes = document.getElementById('yesBtn');
+  yes.style.transform = `scale(${Math.min(1.35, 1 + noStep*.07)})`;
+}
+noBtn.addEventListener('mouseenter', dodge);
+noBtn.addEventListener('click', (e)=>{ e.preventDefault(); dodge(); });
+noBtn.addEventListener('touchstart', (e)=>{ e.preventDefault(); dodge(); }, {passive:false});
+
+/* ---------- SCREEN 2: days (next week) ---------- */
+const dayGrid = document.getElementById('dayGrid');
+const fmtName = new Intl.DateTimeFormat('en-US',{weekday:'short'});
+const fmtMo   = new Intl.DateTimeFormat('en-US',{month:'short'});
+const fmtFull = new Intl.DateTimeFormat('en-US',{weekday:'long', month:'long', day:'numeric'});
+(function buildDays(){
+  const today = new Date(); today.setHours(0,0,0,0);
+  for(let i=1; i<=7; i++){
+    const d = new Date(today); d.setDate(today.getDate()+i);
+    const btn = document.createElement('button');
+    btn.className='opt'; btn.type='button'; btn.setAttribute('aria-pressed','false');
+    btn.innerHTML =
+      `<span class="day-name">${fmtName.format(d)}</span>`+
+      `<span class="day-num">${d.getDate()}</span>`+
+      `<span class="day-mo">${fmtMo.format(d)}</span>`;
+    btn.addEventListener('click', ()=>{
+      [...dayGrid.children].forEach(c=>c.setAttribute('aria-pressed','false'));
+      btn.setAttribute('aria-pressed','true');
+      pick.day = fmtFull.format(d);
+      enable('dayNext');
+    });
+    dayGrid.appendChild(btn);
+  }
+})();
+document.getElementById('dayNext').addEventListener('click', ()=>{ if(pick.day) show('time'); });
+
+/* ---------- SCREEN 3: time slots ---------- */
+const timeGrid = document.getElementById('timeGrid');
+const slots = ['9:00 am','10:00 am','11:00 am','12:00 pm','1:00 pm','2:00 pm'];
+slots.forEach(t=>{
+  const btn = document.createElement('button');
+  btn.className='opt'; btn.type='button'; btn.setAttribute('aria-pressed','false');
+  btn.innerHTML = `<span class="time">${t}</span>`;
+  btn.addEventListener('click', ()=>{
+    [...timeGrid.children].forEach(c=>c.setAttribute('aria-pressed','false'));
+    btn.setAttribute('aria-pressed','true');
+    pick.time = t; enable('timeNext');
+  });
+  timeGrid.appendChild(btn);
+});
+document.getElementById('timeNext').addEventListener('click', ()=>{ if(pick.time) show('act'); });
+
+/* ---------- SCREEN 4: activities ---------- */
+const ICON = {
+  arts:`<svg viewBox="0 0 60 60" aria-hidden="true"><path class="stroke-r" d="M30 8C16 8 6 17 6 28c0 8 7 11 12 11 4 0 4-3 7-3 4 0 4 5 9 5 11 0 20-8 20-19C54 13 43 8 30 8z"/><circle class="fill-r" cx="18" cy="22" r="3"/><circle class="fill-b" cx="30" cy="17" r="3"/><circle class="fill-olive" cx="42" cy="22" r="3"/><circle class="fill-pink" cx="44" cy="33" r="3"/></svg>`,
+  picnic:`<svg viewBox="0 0 60 60" aria-hidden="true"><circle class="fill-r" cx="22" cy="34" r="9"/><circle class="fill-r" cx="36" cy="38" r="9"/><circle class="fill-r" cx="30" cy="26" r="9"/><path class="stroke-olive" d="M30 17V9M22 25l-6-7M38 29l7-8"/></svg>`,
+  cook:`<svg viewBox="0 0 60 60" aria-hidden="true"><rect class="stroke-b" x="14" y="28" width="32" height="20" rx="4"/><line class="stroke-b" x1="10" y1="34" x2="50" y2="34"/><path class="stroke-r" d="M24 22c0-5 4-5 4-9M36 22c0-5-4-5-4-9"/></svg>`,
+  movie:`<svg viewBox="0 0 60 60" aria-hidden="true"><rect class="stroke-r" x="10" y="20" width="40" height="28" rx="4"/><path class="stroke-r" d="M26 14l4 6M34 14l4 6M22 48v4M38 48v4"/><circle class="fill-b" cx="30" cy="34" r="6"/></svg>`,
+  read:`<svg viewBox="0 0 60 60" aria-hidden="true"><path class="stroke-b" d="M30 18C24 13 14 13 10 15v30c4-2 14-2 20 3 6-5 16-5 20-3V15c-4-2-14-2-20 3z"/><line class="stroke-b" x1="30" y1="18" x2="30" y2="48"/></svg>`,
+  walk:`<svg viewBox="0 0 60 60" aria-hidden="true"><circle class="fill-r" cx="40" cy="16" r="6"/><path class="stroke-olive" d="M18 30q6-10 14-6t12 6M14 50q5-14 10-20"/><path class="stroke-r" d="M44 50l-8-16-8 6 4 12"/></svg>`,
+  shop:`<svg viewBox="0 0 60 60" aria-hidden="true"><path class="stroke-b" d="M12 22l4-8h28l4 8z"/><rect class="stroke-b" x="12" y="22" width="36" height="26"/><line class="stroke-b" x1="30" y1="22" x2="30" y2="48"/><circle class="fill-r" cx="21" cy="35" r="3"/><circle class="fill-r" cx="39" cy="35" r="3"/></svg>`
+};
+const acts = [
+  {key:'arts',   label:'Arts & crafts'},
+  {key:'picnic', label:'A picnic'},
+  {key:'cook',   label:'Cooking in together'},
+  {key:'movie',  label:'Watching a movie'},
+  {key:'read',   label:'A reading date'},
+  {key:'walk',   label:'Going on a walk'},
+  {key:'shop',   label:'Window shopping'}
+];
+const actGrid = document.getElementById('actGrid');
+acts.forEach(a=>{
+  const btn = document.createElement('button');
+  btn.className='opt opt--act'; btn.type='button'; btn.setAttribute('aria-pressed','false');
+  btn.innerHTML = ICON[a.key] + `<span class="label">${a.label}</span>`;
+  btn.addEventListener('click', ()=>{
+    [...actGrid.children].forEach(c=>c.setAttribute('aria-pressed','false'));
+    btn.setAttribute('aria-pressed','true');
+    pick.act = a.label; enable('actNext');
+  });
+  actGrid.appendChild(btn);
+});
+document.getElementById('actNext').addEventListener('click', ()=>{
+  if(!pick.act) return;
+  document.getElementById('summaryText').innerHTML =
+    `On <b>${pick.day}</b> at <b>${pick.time}</b> we'll go <b>${pick.act.toLowerCase()}</b>.<br>I'll pick you up at your place. 🧡`;
+  show('confirm');
+});
+
+/* ---------- enable helper ---------- */
+function enable(id){
+  const b = document.getElementById(id);
+  b.disabled = false; b.style.opacity = '1';
+}
+
+/* ---------- SCREEN 5: send ---------- */
+document.getElementById('sendBtn').addEventListener('click', sendAnswer);
+
+async function sendAnswer(){
+  const btn = document.getElementById('sendBtn');
+  const err = document.getElementById('errMsg');
+  err.textContent = '';
+  btn.disabled = true; btn.textContent = 'Sending…';
+
+  const message =
+    `${CONFIG.herName} said YES 🎉\n\n`+
+    `Day: ${pick.day}\n`+
+    `Pickup time: ${pick.time}\n`+
+    `Plan: ${pick.act}\n\n`+
+    `Place: her house.`;
+
+  let sent = false;
+  if(CONFIG.accessKey && CONFIG.accessKey !== "PASTE_YOUR_ACCESS_KEY_HERE"){
+    try{
+      const res = await fetch('https://api.web3forms.com/submit',{
+        method:'POST',
+        headers:{'Content-Type':'application/json', 'Accept':'application/json'},
+        body: JSON.stringify({
+          access_key: CONFIG.accessKey,
+          subject: `🧡 ${CONFIG.herName} said YES to the date`,
+          from_name: CONFIG.herName,
+          day: pick.day,
+          time: pick.time,
+          plan: pick.act,
+          message
+        })
       });
+      const data = await res.json();
+      sent = !!data.success;
+    }catch(e){ sent = false; }
+  }
 
-      /* ---------- SCREEN 1: yes / no ---------- */
-      document.getElementById("yesBtn").addEventListener("click", () => {
-        burst(28);
-        show("day");
-      });
+  if(sent){
+    finish();
+  }else{
+    // Backup: open a pre-written email to Cam
+    err.textContent = 'Opening your email to send the answer…';
+    const subject = encodeURIComponent(`${CONFIG.herName} said YES to the date 🧡`);
+    const body = encodeURIComponent(message);
+    window.location.href = `mailto:${CONFIG.notifyEmail}?subject=${subject}&body=${body}`;
+    setTimeout(finish, 900);
+  }
+}
 
-      const noBtn = document.getElementById("noBtn");
-      const noTexts = [
-        "No",
-        "Are you sure?",
-        "Pretty please? 🥺",
-        "C'mon!",
-        "💔",
-        "Try again 😄",
-      ];
-      let noStep = 0;
-      function dodge() {
-        noStep = Math.min(noStep + 1, noTexts.length - 1);
-        noBtn.textContent = noTexts[noStep];
-        const dx = Math.random() * 200 - 100;
-        const dy = Math.random() * 120 - 30;
-        noBtn.style.transform = `translate(${dx}px, ${dy}px) scale(${Math.max(
-          0.55,
-          1 - noStep * 0.12
-        )})`;
-        const yes = document.getElementById("yesBtn");
-        yes.style.transform = `scale(${Math.min(1.35, 1 + noStep * 0.07)})`;
-      }
-      noBtn.addEventListener("mouseenter", dodge);
-      noBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        dodge();
-      });
-      noBtn.addEventListener(
-        "touchstart",
-        (e) => {
-          e.preventDefault();
-          dodge();
-        },
-        { passive: false }
-      );
+function finish(){
+  document.getElementById('doneText').textContent =
+    `${pick.day} · ${pick.time} · ${pick.act}. See you at your place. 💌`;
+  burst(40);
+  show('done');
+}
 
-      /* ---------- SCREEN 2: days (next week) ---------- */
-      const dayGrid = document.getElementById("dayGrid");
-      const fmtName = new Intl.DateTimeFormat("en-US", { weekday: "short" });
-      const fmtMo = new Intl.DateTimeFormat("en-US", { month: "short" });
-      const fmtFull = new Intl.DateTimeFormat("en-US", {
-        weekday: "long",
-        month: "long",
-        day: "numeric",
-      });
-      (function buildDays() {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        for (let i = 1; i <= 7; i++) {
-          const d = new Date(today);
-          d.setDate(today.getDate() + i);
-          const btn = document.createElement("button");
-          btn.className = "opt";
-          btn.type = "button";
-          btn.setAttribute("aria-pressed", "false");
-          btn.innerHTML =
-            `<span class="day-name">${fmtName.format(d)}</span>` +
-            `<span class="day-num">${d.getDate()}</span>` +
-            `<span class="day-mo">${fmtMo.format(d)}</span>`;
-          btn.addEventListener("click", () => {
-            [...dayGrid.children].forEach((c) =>
-              c.setAttribute("aria-pressed", "false")
-            );
-            btn.setAttribute("aria-pressed", "true");
-            pick.day = fmtFull.format(d);
-            enable("dayNext");
-          });
-          dayGrid.appendChild(btn);
-        }
-      })();
-      document.getElementById("dayNext").addEventListener("click", () => {
-        if (pick.day) show("time");
-      });
-
-      /* ---------- SCREEN 3: time slots ---------- */
-      const timeGrid = document.getElementById("timeGrid");
-      const slots = [
-        "9:00 am",
-        "10:00 am",
-        "11:00 am",
-        "12:00 pm",
-        "1:00 pm",
-        "2:00 pm",
-      ];
-      slots.forEach((t) => {
-        const btn = document.createElement("button");
-        btn.className = "opt";
-        btn.type = "button";
-        btn.setAttribute("aria-pressed", "false");
-        btn.innerHTML = `<span class="time">${t}</span>`;
-        btn.addEventListener("click", () => {
-          [...timeGrid.children].forEach((c) =>
-            c.setAttribute("aria-pressed", "false")
-          );
-          btn.setAttribute("aria-pressed", "true");
-          pick.time = t;
-          enable("timeNext");
-        });
-        timeGrid.appendChild(btn);
-      });
-      document.getElementById("timeNext").addEventListener("click", () => {
-        if (pick.time) show("act");
-      });
-
-      /* ---------- SCREEN 4: activities ---------- */
-      const ICON = {
-        arts: `<svg viewBox="0 0 60 60" aria-hidden="true"><path class="stroke-r" d="M30 8C16 8 6 17 6 28c0 8 7 11 12 11 4 0 4-3 7-3 4 0 4 5 9 5 11 0 20-8 20-19C54 13 43 8 30 8z"/><circle class="fill-r" cx="18" cy="22" r="3"/><circle class="fill-b" cx="30" cy="17" r="3"/><circle class="fill-olive" cx="42" cy="22" r="3"/><circle class="fill-pink" cx="44" cy="33" r="3"/></svg>`,
-        picnic: `<svg viewBox="0 0 60 60" aria-hidden="true"><circle class="fill-r" cx="22" cy="34" r="9"/><circle class="fill-r" cx="36" cy="38" r="9"/><circle class="fill-r" cx="30" cy="26" r="9"/><path class="stroke-olive" d="M30 17V9M22 25l-6-7M38 29l7-8"/></svg>`,
-        cook: `<svg viewBox="0 0 60 60" aria-hidden="true"><rect class="stroke-b" x="14" y="28" width="32" height="20" rx="4"/><line class="stroke-b" x1="10" y1="34" x2="50" y2="34"/><path class="stroke-r" d="M24 22c0-5 4-5 4-9M36 22c0-5-4-5-4-9"/></svg>`,
-        movie: `<svg viewBox="0 0 60 60" aria-hidden="true"><rect class="stroke-r" x="10" y="20" width="40" height="28" rx="4"/><path class="stroke-r" d="M26 14l4 6M34 14l4 6M22 48v4M38 48v4"/><circle class="fill-b" cx="30" cy="34" r="6"/></svg>`,
-        read: `<svg viewBox="0 0 60 60" aria-hidden="true"><path class="stroke-b" d="M30 18C24 13 14 13 10 15v30c4-2 14-2 20 3 6-5 16-5 20-3V15c-4-2-14-2-20 3z"/><line class="stroke-b" x1="30" y1="18" x2="30" y2="48"/></svg>`,
-        walk: `<svg viewBox="0 0 60 60" aria-hidden="true"><circle class="fill-r" cx="40" cy="16" r="6"/><path class="stroke-olive" d="M18 30q6-10 14-6t12 6M14 50q5-14 10-20"/><path class="stroke-r" d="M44 50l-8-16-8 6 4 12"/></svg>`,
-        shop: `<svg viewBox="0 0 60 60" aria-hidden="true"><path class="stroke-b" d="M12 22l4-8h28l4 8z"/><rect class="stroke-b" x="12" y="22" width="36" height="26"/><line class="stroke-b" x1="30" y1="22" x2="30" y2="48"/><circle class="fill-r" cx="21" cy="35" r="3"/><circle class="fill-r" cx="39" cy="35" r="3"/></svg>`,
-      };
-      const acts = [
-        { key: "arts", label: "Arts & crafts" },
-        { key: "picnic", label: "A picnic" },
-        { key: "cook", label: "Cooking in together" },
-        { key: "movie", label: "Watching a movie" },
-        { key: "read", label: "A reading date" },
-        { key: "walk", label: "Going on a walk" },
-        { key: "shop", label: "Window shopping" },
-      ];
-      const actGrid = document.getElementById("actGrid");
-      acts.forEach((a) => {
-        const btn = document.createElement("button");
-        btn.className = "opt opt--act";
-        btn.type = "button";
-        btn.setAttribute("aria-pressed", "false");
-        btn.innerHTML = ICON[a.key] + `<span class="label">${a.label}</span>`;
-        btn.addEventListener("click", () => {
-          [...actGrid.children].forEach((c) =>
-            c.setAttribute("aria-pressed", "false")
-          );
-          btn.setAttribute("aria-pressed", "true");
-          pick.act = a.label;
-          enable("actNext");
-        });
-        actGrid.appendChild(btn);
-      });
-      document.getElementById("actNext").addEventListener("click", () => {
-        if (!pick.act) return;
-        document.getElementById("summaryText").innerHTML = `On <b>${
-          pick.day
-        }</b> at <b>${
-          pick.time
-        }</b> we'll go <b>${pick.act.toLowerCase()}</b>.<br>I'll pick you up at your place`;
-        show("confirm");
-      });
-
-      /* ---------- enable helper ---------- */
-      function enable(id) {
-        const b = document.getElementById(id);
-        b.disabled = false;
-        b.style.opacity = "1";
-      }
-
-      /* ---------- SCREEN 5: send ---------- */
-      document.getElementById("sendBtn").addEventListener("click", sendAnswer);
-
-      async function sendAnswer() {
-        const btn = document.getElementById("sendBtn");
-        const err = document.getElementById("errMsg");
-        err.textContent = "";
-        btn.disabled = true;
-        btn.textContent = "Sending…";
-
-        const message =
-          `${CONFIG.herName} said YES 🎉\n\n` +
-          `Day: ${pick.day}\n` +
-          `Pickup time: ${pick.time}\n` +
-          `Plan: ${pick.act}\n\n` +
-          `Place: her house.`;
-
-        let sent = false;
-        if (
-          CONFIG.accessKey &&
-          CONFIG.accessKey !== "PASTE_YOUR_ACCESS_KEY_HERE"
-        ) {
-          try {
-            const res = await fetch("https://api.web3forms.com/submit", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-              },
-              body: JSON.stringify({
-                access_key: CONFIG.accessKey,
-                subject: `🧡 ${CONFIG.herName} said YES to the date`,
-                from_name: CONFIG.herName,
-                day: pick.day,
-                time: pick.time,
-                plan: pick.act,
-                message,
-              }),
-            });
-            const data = await res.json();
-            sent = !!data.success;
-          } catch (e) {
-            sent = false;
-          }
-        }
-
-        if (sent) {
-          finish();
-        } else {
-          // Backup: open a pre-written email to Cam
-          err.textContent = "Opening your email to send the answer…";
-          const subject = encodeURIComponent(
-            `${CONFIG.herName} said YES to the date 🧡`
-          );
-          const body = encodeURIComponent(message);
-          window.location.href = `mailto:${CONFIG.notifyEmail}?subject=${subject}&body=${body}`;
-          setTimeout(finish, 900);
-        }
-      }
-
-      function finish() {
-        document.getElementById(
-          "doneText"
-        ).textContent = `${pick.day} · ${pick.time} · ${pick.act}. See you at your place. 💌`;
-        burst(40);
-        show("done");
-      }
-
-      /* ---------- petals / hearts ---------- */
-      function burst(n) {
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
-          return;
-        const shapes = ["🧡", "❤️", "🌼", "✿"];
-        const colors = [
-          "var(--brick)",
-          "var(--cobalt)",
-          "var(--olive)",
-          "var(--pink)",
-        ];
-        for (let i = 0; i < n; i++) {
-          const el = document.createElement("div");
-          el.className = "petal";
-          const useEmoji = Math.random() > 0.5;
-          if (useEmoji) {
-            el.textContent = shapes[Math.floor(Math.random() * shapes.length)];
-            el.style.fontSize = 14 + Math.random() * 16 + "px";
-          } else {
-            el.style.width = el.style.height = 8 + Math.random() * 10 + "px";
-            el.style.borderRadius = "50%";
-            el.style.background =
-              colors[Math.floor(Math.random() * colors.length)];
-          }
-          el.style.left = Math.random() * 100 + "vw";
-          el.style.animationDuration = 3 + Math.random() * 3 + "s";
-          el.style.animationDelay = Math.random() * 0.6 + "s";
-          document.body.appendChild(el);
-          setTimeout(() => el.remove(), 7000);
-        }
-      }
-    </script>
-  </body>
+/* ---------- petals / hearts ---------- */
+function burst(n){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const shapes = ['🧡','❤️','🌼','✿'];
+  const colors = ['var(--brick)','var(--cobalt)','var(--olive)','var(--pink)'];
+  for(let i=0;i<n;i++){
+    const el = document.createElement('div');
+    el.className='petal';
+    const useEmoji = Math.random() > .5;
+    if(useEmoji){
+      el.textContent = shapes[Math.floor(Math.random()*shapes.length)];
+      el.style.fontSize = (14 + Math.random()*16) + 'px';
+    }else{
+      el.style.width = el.style.height = (8 + Math.random()*10) + 'px';
+      el.style.borderRadius = '50%';
+      el.style.background = colors[Math.floor(Math.random()*colors.length)];
+    }
+    el.style.left = (Math.random()*100) + 'vw';
+    el.style.animationDuration = (3 + Math.random()*3) + 's';
+    el.style.animationDelay = (Math.random()*0.6) + 's';
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(), 7000);
+  }
+}
+</script>
+</body>
 </html>
