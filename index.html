@@ -170,6 +170,20 @@
   .opt--act svg{ width:54px; height:54px; }
   .opt--act .label{ font-weight:600; font-size:.92rem; line-height:1.2; }
 
+  .other-input{
+    width:100%;
+    font-family:'Karla', sans-serif;
+    font-size:1rem;
+    color:var(--ink);
+    background:var(--tile);
+    border:1.8px solid rgba(47,79,143,.45);
+    border-radius:8px;
+    padding:12px 14px;
+    text-align:center;
+  }
+  .other-input::placeholder{ color:rgba(46,40,35,.4); }
+  .other-input:focus{ outline:none; border-color:var(--brick); box-shadow:inset 0 0 0 2px var(--brick); }
+
   .step-title{
     font-family:'Instrument Serif', serif;
     font-size:clamp(1.7rem,5.5vw,2.3rem);
@@ -269,7 +283,7 @@
         </g>
       </svg>
       <h1>Will you go on a <em>date</em> with me next week?</h1>
-      <p class="sub">I'll pick you up from your place. All you have to do is choose when and what we do. 🧡</p>
+      <p class="sub">I'll pick you up from your place. All you have to do is choose when and what we do!</p>
       <div class="row">
         <button class="btn" id="yesBtn">Yes, I'd love to</button>
         <button class="btn btn--ghost" id="noBtn">No</button>
@@ -279,7 +293,7 @@
     <!-- ===== SCREEN 2 · DAY ===== -->
     <section class="screen" id="screen-day">
       <div class="dots"><span class="on"></span><span></span><span></span><span></span></div>
-      <h2 class="step-title">Yes! 🎉 Which day?</h2>
+      <h2 class="step-title">YIPPIE! When?</h2>
       <p class="step-hint">Pick whichever day works best.</p>
       <div class="grid grid--days" id="dayGrid"></div>
       <div class="nav">
@@ -306,6 +320,9 @@
       <h2 class="step-title">And what should we do?</h2>
       <p class="step-hint">Choose our plan.</p>
       <div class="grid grid--acts" id="actGrid"></div>
+      <div id="otherWrap" style="display:none; margin-top:14px;">
+        <input id="otherInput" class="other-input" type="text" maxlength="60" placeholder="Tell me your idea…" autocomplete="off">
+      </div>
       <div class="nav">
         <button class="back" data-go="time">← Back</button>
         <button class="btn" id="actNext" disabled style="opacity:.45;">See our date</button>
@@ -317,7 +334,7 @@
       <div class="dots"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div>
       <p class="eyebrow">Our date</p>
       <p class="summary" id="summaryText"></p>
-      <p class="sub">If it all looks good, send me your answer and I'll start planning. 💌</p>
+      <p class="sub">If it all looks good, send me your answer and I'll start planning :)</p>
       <div class="row">
         <button class="btn" id="sendBtn">Send my answer</button>
       </div>
@@ -382,7 +399,7 @@ document.querySelectorAll('[data-go]').forEach(b=>{
 document.getElementById('yesBtn').addEventListener('click', ()=>{ burst(28); show('day'); });
 
 const noBtn = document.getElementById('noBtn');
-const noTexts = ['No','Are you sure?','Pretty please? 🥺','C\'mon!','💔','Try again 😄'];
+const noTexts = ['No','Are you sure?','Pretty please? ','C\'mon!','💔','Try again'];
 let noStep = 0;
 function dodge(){
   noStep = Math.min(noStep+1, noTexts.length-1);
@@ -447,7 +464,8 @@ const ICON = {
   movie:`<svg viewBox="0 0 60 60" aria-hidden="true"><rect class="stroke-r" x="10" y="20" width="40" height="28" rx="4"/><path class="stroke-r" d="M26 14l4 6M34 14l4 6M22 48v4M38 48v4"/><circle class="fill-b" cx="30" cy="34" r="6"/></svg>`,
   read:`<svg viewBox="0 0 60 60" aria-hidden="true"><path class="stroke-b" d="M30 18C24 13 14 13 10 15v30c4-2 14-2 20 3 6-5 16-5 20-3V15c-4-2-14-2-20 3z"/><line class="stroke-b" x1="30" y1="18" x2="30" y2="48"/></svg>`,
   walk:`<svg viewBox="0 0 60 60" aria-hidden="true"><circle class="fill-r" cx="40" cy="16" r="6"/><path class="stroke-olive" d="M18 30q6-10 14-6t12 6M14 50q5-14 10-20"/><path class="stroke-r" d="M44 50l-8-16-8 6 4 12"/></svg>`,
-  shop:`<svg viewBox="0 0 60 60" aria-hidden="true"><path class="stroke-b" d="M12 22l4-8h28l4 8z"/><rect class="stroke-b" x="12" y="22" width="36" height="26"/><line class="stroke-b" x1="30" y1="22" x2="30" y2="48"/><circle class="fill-r" cx="21" cy="35" r="3"/><circle class="fill-r" cx="39" cy="35" r="3"/></svg>`
+  shop:`<svg viewBox="0 0 60 60" aria-hidden="true"><path class="stroke-b" d="M12 22l4-8h28l4 8z"/><rect class="stroke-b" x="12" y="22" width="36" height="26"/><line class="stroke-b" x1="30" y1="22" x2="30" y2="48"/><circle class="fill-r" cx="21" cy="35" r="3"/><circle class="fill-r" cx="39" cy="35" r="3"/></svg>`,
+  other:`<svg viewBox="0 0 60 60" aria-hidden="true"><path class="stroke-r" d="M16 44l4-12 22-22 8 8-22 22-12 4z"/><line class="stroke-r" x1="36" y1="14" x2="44" y2="22"/><line class="stroke-b" x1="14" y1="50" x2="46" y2="50"/></svg>`
 };
 const acts = [
   {key:'arts',   label:'Arts & crafts'},
@@ -456,9 +474,16 @@ const acts = [
   {key:'movie',  label:'Watching a movie'},
   {key:'read',   label:'A reading date'},
   {key:'walk',   label:'Going on a walk'},
-  {key:'shop',   label:'Window shopping'}
+  {key:'shop',   label:'Window shopping'},
+  {key:'other',  label:'Something else'}
 ];
 const actGrid = document.getElementById('actGrid');
+const otherWrap = document.getElementById('otherWrap');
+const otherInput = document.getElementById('otherInput');
+function setActNext(on){
+  const b = document.getElementById('actNext');
+  b.disabled = !on; b.style.opacity = on ? '1' : '.45';
+}
 acts.forEach(a=>{
   const btn = document.createElement('button');
   btn.className='opt opt--act'; btn.type='button'; btn.setAttribute('aria-pressed','false');
@@ -466,14 +491,29 @@ acts.forEach(a=>{
   btn.addEventListener('click', ()=>{
     [...actGrid.children].forEach(c=>c.setAttribute('aria-pressed','false'));
     btn.setAttribute('aria-pressed','true');
-    pick.act = a.label; enable('actNext');
+    if(a.key === 'other'){
+      otherWrap.style.display = 'block';
+      otherInput.focus();
+      const v = otherInput.value.trim();
+      pick.act = v || null;
+      setActNext(!!v);
+    }else{
+      otherWrap.style.display = 'none';
+      pick.act = a.label;
+      setActNext(true);
+    }
   });
   actGrid.appendChild(btn);
+});
+otherInput.addEventListener('input', ()=>{
+  const v = otherInput.value.trim();
+  pick.act = v || null;
+  setActNext(!!v);
 });
 document.getElementById('actNext').addEventListener('click', ()=>{
   if(!pick.act) return;
   document.getElementById('summaryText').innerHTML =
-    `On <b>${pick.day}</b> at <b>${pick.time}</b> we'll go <b>${pick.act.toLowerCase()}</b>.<br>I'll pick you up at your place. 🧡`;
+    `On <b>${pick.day}</b> at <b>${pick.time}</b>, our plan: <b>${pick.act}</b>.<br>I'll pick you up at your place. 🧡`;
   show('confirm');
 });
 
